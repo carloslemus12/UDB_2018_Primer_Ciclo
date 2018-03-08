@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>Servelt_Hola</servlet-name>
+        <servlet-class>edu.udb.servelt.Servelt_Hola</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Servlet_Ingresaremp</servlet-name>
+        <servlet-class>edu.udb.servelt.Servlet_Ingresaremp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GeneraSession</servlet-name>
+        <servlet-class>edu.udb.servelt.GeneraSession</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servelt_Hola</servlet-name>
+        <url-pattern>/Servelt_Hola</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Servlet_Ingresaremp</servlet-name>
+        <url-pattern>/Servlet_Ingresaremp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GeneraSession</servlet-name>
+        <url-pattern>/GeneraSession</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
