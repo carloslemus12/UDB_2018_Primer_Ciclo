@@ -61,31 +61,27 @@ public class accionCategoria extends HttpServlet {
                     if (con.crearQuery("categoria_libro").where("id", Integer.valueOf(id)).delete() > 0) {
                         response.sendRedirect("/Guia7_biblioteca/categorias.jsp");
                     } else
-                        out.println("<h1>La accion de " + accion.toLowerCase() + " no se ha podido realizar</h1>");
+                        out.println("<h1>La accion de eliminar no se ha podido realizar</h1>");
                 } else if(accion.equals("Modificar")) {
-                    
-                    out.println("<form action='accionCategoria' method='POST'>");
-                    out.println("<div class=\"form-row align-items-center d-flex justify-content-center bg-dark p-3\">");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input id='id' class=\"form-control mt-2\" type='hidden' value='" + id + "' name='id'/>");
-                    out.println("</div>");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input id='nombre' class=\"form-control mt-2\" type='text' value='"+ nombre + "' name='nombre' placeholder='Categoria' />");
-                    out.println("</div>");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input id='btnAccion' class=\"form-control mt-2 btn btn-primary\" type='submit' value='GuardarCambio' name='Accion'/>");
-                    out.println("</div>");
-                    
-                    out.println("</div>");
-                    
-                    out.println("<div id=\"errorId\" class=\"alert alert-danger mx-5 d-none\" role=\"alert\"></div>");
-                    out.println("<div id=\"errorNombre\" class=\"alert alert-danger mx-5 d-none\" role=\"alert\"></div>");
-
-                    out.println("</form>");
-                    
+                    out.println(
+                        "<div class='d-flex justify-content-center mt-3'>"
+                        +"<div class='card' style='width: 38rem;'>"
+                        +"<h5 class='card-header'>Nueva categoria:</h5>"
+                        +"<div class='card-body'>"
+                        +"<form action='accionCategoria' method='POST'>"
+                        +"<input id='id' class='form-control' name='id' type='hidden' value='" + id +"' />"
+                        +"<div id='errorId' class='alert alert-danger d-none' role='alert'></div>"
+                        +"<p>"
+                        +"<label for='nombre'> Nombre de la categoria: </label>"
+                        +"<input id='nombre' class='form-control' name='nombre' type='text' value='" + nombre + "' />"
+                        +"</p>"
+                        +"<div id='errorNombre' class='alert alert-danger d-none' role='alert'></div>"
+                        +"<input id='btnAccion' class='btn btn-success' type='submit' value='GuardarCambio' name='Accion'/>"
+                        +"</form>"
+                        +"</div>"
+                        +"</div>"
+                        + "</div>"
+                    );
                 } else if(accion.equals("GuardarCambio")) {
                     if (con.crearQuery("categoria_libro")
                             .agregarCampoValor("categoria", nombre)

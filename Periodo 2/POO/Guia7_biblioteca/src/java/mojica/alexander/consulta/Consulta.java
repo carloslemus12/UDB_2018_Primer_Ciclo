@@ -6,6 +6,7 @@
 package mojica.alexander.consulta;
 
 import java.sql.ResultSet;
+import mojica.alexander.consulta.Conexion;
 
 /**
  *

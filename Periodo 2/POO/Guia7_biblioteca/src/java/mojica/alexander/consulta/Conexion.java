@@ -5,6 +5,7 @@
  */
 package mojica.alexander.consulta;
 
+import mojica.alexander.consulta.Query;
 import java.sql.*;
 
 /**

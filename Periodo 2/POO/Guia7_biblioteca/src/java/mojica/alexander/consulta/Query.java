@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.util.Pair;
-import static mojica.alexander.consulta.Consulta.INT;
-import static mojica.alexander.consulta.Consulta.STRING;
+import mojica.alexander.consulta.Conexion;
 
 
 /**
@@ -28,6 +27,8 @@ public class Query extends Consulta {
     private static final String EQUALS = "=";
     private static final String IN = "in";
     private static final String NOTIN = "in";
+    private static final String EQUALSHA1 = "= SHA1";
+    private static final String STRINGSHA1 = "string sha1";
     
     public Query(Conexion conexion, String tabla) {
         super(conexion, tabla);
@@ -55,6 +56,11 @@ public class Query extends Consulta {
         return this;
     }
     
+    public Query agregarCampoValorSha1(String campo, String valor){
+        this.campovalor.put(campo, new Pair<>(STRINGSHA1, valor));
+        return this;
+    }
+    
     public Query agregarCampoValor(String campo, int valor){
         this.campovalor.put(campo, new Pair<>(INT, ""+valor));
         return this;
@@ -62,6 +68,12 @@ public class Query extends Consulta {
 
     public Query where(String campo, String valor){
         where.add(new Pair<>(new Pair<>(campo, STRING), new Pair<>(EQUALS, valor)));
+        
+        return this;
+    }
+    
+    public Query whereSha1(String campo, String valor){
+        where.add(new Pair<>(new Pair<>(campo, STRING), new Pair<>(EQUALSHA1, valor)));
         
         return this;
     }
@@ -125,6 +137,9 @@ public class Query extends Consulta {
                     }
                     
                     consulta += ")";
+                } else if(operacion.equals(EQUALSHA1)){
+                    String sentencia = campo + " " + operacion + "(?)";
+                    consulta += (primera)? " WHERE " + sentencia : " AND " + sentencia;
                 } else {
                     String sentencia = campo + " " + operacion + " ?";
                     consulta += (primera)? " WHERE " + sentencia : " AND " + sentencia;
@@ -132,7 +147,7 @@ public class Query extends Consulta {
                 
                 primera = false;
             }
-            
+            System.out.println(consulta);
             PreparedStatement sentencia = super.conexion.crearPreparedStatement(consulta);
             
             int indice = 1;
@@ -173,6 +188,60 @@ public class Query extends Consulta {
         }
     }
 
+    public String selectStr(){
+        try{
+            String consulta = "SELECT ";
+ 
+            boolean primera = true;
+            for(HashMap.Entry<String, Pair<String, String>> datos : this.campovalor.entrySet()){
+                consulta += (primera)? datos.getKey() : ", " + datos.getKey();
+                primera = false;
+            }
+
+            if (primera) consulta += "*";
+            
+            primera = true;
+            
+            consulta += " FROM " + tabla;
+            
+            for(Pair<Pair<String, String>, Pair<String, Object>> datos : where){
+                String campo = datos.getKey().getKey();
+                String operacion = datos.getValue().getKey();
+                
+                if (operacion.equals(NOTIN)) {
+                    consulta += (primera)? " WHERE NOT " + campo + " IN " : " AND NOT " + campo + " IN ";
+                    
+                    List<Object> lista = (List<Object>)datos.getValue().getValue();
+                    
+                    consulta += "(";
+                    boolean uso = false;
+                    
+                    for(Object obj : lista){
+                        consulta += (!uso)? "?" : ",?";
+                        
+                        uso = true;
+                    }
+                    
+                    consulta += ")";
+                } else if(operacion.equals(EQUALSHA1)){
+                    String sentencia = campo + " " + operacion + "(?)";
+                    consulta += (primera)? " WHERE " + sentencia : " AND " + sentencia;
+                } else {
+                    String sentencia = campo + " " + operacion + " ?";
+                    consulta += (primera)? " WHERE " + sentencia : " AND " + sentencia;
+                }
+                
+                primera = false;
+            }
+            
+            return consulta;
+            
+        } catch (Exception ex){
+            System.out.println("Sentencia select: " + ex.getMessage());
+            return "";
+        }
+    }
+    
     public int delete(){
         try{
             String consulta = "DELETE FROM " + super.tabla;
@@ -224,7 +293,14 @@ public class Query extends Consulta {
             boolean primera = true;
             
             for(HashMap.Entry<String, Pair<String, String>> datos : this.campovalor.entrySet()){
-                consulta += (primera)? datos.getKey() + " = ?" : ", " + datos.getKey() + " = ?";
+                String x = "", y = "";
+                
+                if (datos.getValue().getKey().equals(STRINGSHA1)) {
+                    x = "SHA1(";
+                    y = ")";
+                }
+                
+                consulta += (primera)? datos.getKey() + " = " + x + "?" + y : ", " + datos.getKey() + " = " + x + "?" + y;
                 primera = false;
             }
             
@@ -247,7 +323,7 @@ public class Query extends Consulta {
                 String tipo = info.getValue().getKey();
                 String val = info.getValue().getValue();
                 
-                if (tipo.equals(STRING))
+                if (tipo.equals(STRING) || tipo.equals(STRINGSHA1))
                     sentencia.setString(indice, val);
                 else if (tipo.equals(INT))
                     sentencia.setInt(indice, Integer.valueOf(val));
@@ -261,7 +337,7 @@ public class Query extends Consulta {
                 
                 String tipo = datos.getKey().getValue();
                 
-                if (tipo.equals(STRING))
+                if (tipo.equals(STRING) || tipo.equals(STRINGSHA1))
                     sentencia.setString(indice, valor);
                 else if (tipo.equals(INT))
                     sentencia.setInt(indice, Integer.valueOf(valor));
@@ -286,12 +362,21 @@ public class Query extends Consulta {
             for (HashMap.Entry<String, Pair<String, String>> info : this.campovalor.entrySet()) {
                 String campo = info.getKey();
                 
+                String tipo = info.getValue().getKey();
+                
+                String x = "", y = "";
+                
+                if (tipo.equals(STRINGSHA1)) {
+                    x = "SHA1(";
+                    y = ")";
+                }
+                
                 if (campos) {
                     consulta += "," + campo;
-                    valor += ",?";
+                    valor += ","+x+"?"+y;
                 } else {
                     consulta += "(" + campo;
-                    valor += "(?";
+                    valor += "("+x+"?"+y;
                 }
 
                 campos = true;
@@ -306,7 +391,7 @@ public class Query extends Consulta {
                 String tipo = info.getValue().getKey();
                 String val = info.getValue().getValue();
                 
-                if (tipo.equals(STRING))
+                if (tipo.equals(STRING) || tipo.equals(STRINGSHA1))
                     sentencia.setString(indice, val);
                 else if (tipo.equals(INT))
                     sentencia.setInt(indice, Integer.valueOf(val));

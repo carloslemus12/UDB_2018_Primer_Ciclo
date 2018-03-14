@@ -13,7 +13,7 @@
 <%@page import = "mojica.alexander.consulta.Conexion" %>
 <%@page import = "mojica.alexander.consulta.Query" %>
 <%@page import = "mojica.alexander.utilidades.*"%>
-
+<%@include file="comprobar.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +21,9 @@
         <title>Categoria</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" />
     </head>
-    <body>
+    <body class="bg-dark">
+        
+        <%@include file="menu.jsp" %>
         
          <div class="d-flex justify-content-center mt-3">
             <div class="card" style="width: 38rem;">
@@ -51,7 +53,7 @@
         
         <br>
         <!-- Tabla con todas las categorias -->
-        <table class="table table-dark table-bordered table-hover text-center">
+        <table class="table table-dark table-bordered table-hover text-center mb-0">
         <tr>
             <td>ID:</td>
             <td>Categoria:</td>

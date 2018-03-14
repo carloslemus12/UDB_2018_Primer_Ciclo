@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db_roaming_guatemalaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="idcliente" />
+          </Key>
+          <Property Name="idcliente" Type="int" Nullable="false" />
+          <Property Name="idtipocliente" Type="int" Nullable="false" />
+          <Property Name="codigo_cliente" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="dui" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="nit" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="apellidos" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="numero_telefono" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="facturacion">
+          <Key>
+            <PropertyRef Name="idfacturacion" />
+          </Key>
+          <Property Name="idfacturacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idcliente" Type="int" Nullable="false" />
+          <Property Name="monto_facturacion" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tipo_clientes">
+          <Key>
+            <PropertyRef Name="idtipocliente" />
+          </Key>
+          <Property Name="idtipocliente" Type="int" Nullable="false" />
+          <Property Name="nombre_tipo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <Association Name="fk_cliente_reference_tipocliente">
+          <End Role="tipo_clientes" Type="Self.tipo_clientes" Multiplicity="1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_clientes">
+              <PropertyRef Name="idtipocliente" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="idtipocliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_facturacion_reference_clientes">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+          <End Role="facturacion" Type="Self.facturacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="idcliente" />
+            </Principal>
+            <Dependent Role="facturacion">
+              <PropertyRef Name="idcliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_roaming_guatemalaModelStoreContainer">
+          <EntitySet Name="cliente" EntityType="Self.cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="facturacion" EntityType="Self.facturacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipo_clientes" EntityType="Self.tipo_clientes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_cliente_reference_tipocliente" Association="Self.fk_cliente_reference_tipocliente">
+            <End Role="tipo_clientes" EntitySet="tipo_clientes" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+          <AssociationSet Name="fk_facturacion_reference_clientes" Association="Self.fk_facturacion_reference_clientes">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="facturacion" EntitySet="facturacion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_roaming_guatemalaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="idcliente" />
+          </Key>
+          <Property Name="idcliente" Type="Int32" Nullable="false" />
+          <Property Name="idtipocliente" Type="Int32" Nullable="false" />
+          <Property Name="codigo_cliente" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dui" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nit" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="numero_telefono" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tipo_clientes" Relationship="Self.fk_cliente_reference_tipocliente" FromRole="cliente" ToRole="tipo_clientes" />
+          <NavigationProperty Name="facturacion" Relationship="Self.fk_facturacion_reference_clientes" FromRole="cliente" ToRole="facturacion" />
+        </EntityType>
+        <EntityType Name="facturacion">
+          <Key>
+            <PropertyRef Name="idfacturacion" />
+          </Key>
+          <Property Name="idfacturacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idcliente" Type="Int32" Nullable="false" />
+          <Property Name="monto_facturacion" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="cliente" Relationship="Self.fk_facturacion_reference_clientes" FromRole="facturacion" ToRole="cliente" />
+        </EntityType>
+        <EntityType Name="tipo_clientes">
+          <Key>
+            <PropertyRef Name="idtipocliente" />
+          </Key>
+          <Property Name="idtipocliente" Type="Int32" Nullable="false" />
+          <Property Name="nombre_tipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cliente" Relationship="Self.fk_cliente_reference_tipocliente" FromRole="tipo_clientes" ToRole="cliente" />
+        </EntityType>
+        <Association Name="fk_cliente_reference_tipocliente">
+          <End Role="tipo_clientes" Type="Self.tipo_clientes" Multiplicity="1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_clientes">
+              <PropertyRef Name="idtipocliente" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="idtipocliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_facturacion_reference_clientes">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+          <End Role="facturacion" Type="Self.facturacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="idcliente" />
+            </Principal>
+            <Dependent Role="facturacion">
+              <PropertyRef Name="idcliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_roaming_guatemalaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cliente" EntityType="Self.cliente" />
+          <EntitySet Name="facturacion" EntityType="Self.facturacion" />
+          <EntitySet Name="tipo_clientes" EntityType="Self.tipo_clientes" />
+          <AssociationSet Name="fk_cliente_reference_tipocliente" Association="Self.fk_cliente_reference_tipocliente">
+            <End Role="tipo_clientes" EntitySet="tipo_clientes" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+          <AssociationSet Name="fk_facturacion_reference_clientes" Association="Self.fk_facturacion_reference_clientes">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="facturacion" EntitySet="facturacion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_roaming_guatemalaModelStoreContainer" CdmEntityContainer="db_roaming_guatemalaEntities">
+          <EntitySetMapping Name="cliente">
+            <EntityTypeMapping TypeName="db_roaming_guatemalaModel.cliente">
+              <MappingFragment StoreEntitySet="cliente">
+                <ScalarProperty Name="idcliente" ColumnName="idcliente" />
+                <ScalarProperty Name="idtipocliente" ColumnName="idtipocliente" />
+                <ScalarProperty Name="codigo_cliente" ColumnName="codigo_cliente" />
+                <ScalarProperty Name="dui" ColumnName="dui" />
+                <ScalarProperty Name="nit" ColumnName="nit" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="numero_telefono" ColumnName="numero_telefono" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="facturacion">
+            <EntityTypeMapping TypeName="db_roaming_guatemalaModel.facturacion">
+              <MappingFragment StoreEntitySet="facturacion">
+                <ScalarProperty Name="idfacturacion" ColumnName="idfacturacion" />
+                <ScalarProperty Name="idcliente" ColumnName="idcliente" />
+                <ScalarProperty Name="monto_facturacion" ColumnName="monto_facturacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_clientes">
+            <EntityTypeMapping TypeName="db_roaming_guatemalaModel.tipo_clientes">
+              <MappingFragment StoreEntitySet="tipo_clientes">
+                <ScalarProperty Name="idtipocliente" ColumnName="idtipocliente" />
+                <ScalarProperty Name="nombre_tipo" ColumnName="nombre_tipo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -13,6 +13,8 @@
 <%@page import = "mojica.alexander.consulta.Conexion" %>
 <%@page import = "mojica.alexander.consulta.Query" %>
 <%@page import = "mojica.alexander.utilidades.*"%>
+<%@include file="comprobar.jsp" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,68 +22,16 @@
         <title>Administracion libros</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" />
     </head>
-    <body>
+    <body class="bg-dark">
         
-        <div class="d-flex justify-content-center mt-3">
-            <div class="card" style="width: 38rem;">
-                <h5 class="card-header">Nuevo libro:</h5>
-                <div class="card-body">
-                    <!-- Insertar libros -->
-                    <form action='accionLibros' method='POST'>
-                        <p>
-                            <label for="txtNuevoId">Indice del libro:</label>
-                            <input id="txtNuevoId" class="form-control" type='number' value='' name='id'/>
-                        </p>
-                        
-                        <div id="errorId" class="alert alert-danger d-none" role="alert">
-                            This is a danger alert—check it out!
-                        </div>
-
-                        <p>
-                            <label for="txtNuevoTitulo">Titulo del libro:</label>
-                            <input id="txtNuevoTitulo" class="form-control" type='text' value='' name='titulo'/>
-                        </p>
-
-                        <div id="errorTitulo" class="alert alert-danger d-none" role="alert">
-                            This is a danger alert—check it out!
-                        </div>
-                        
-                        <p>
-                            <label for="txtNuevaCantidad">Cantidad del libro:</label>
-                            <input id="txtNuevaCantidad" class="form-control" type='number' value='' name='cantidad'/>
-                        </p>
-
-                        <div id="errorCantidad" class="alert alert-danger d-none" role="alert">
-                            This is a danger alert—check it out!
-                        </div>
-                        
-                        <p>
-                            <label for="selecNuevaCategoria">Categoria del libro:</label>
-                            <select id="selecNuevaCategoria" class="form-control" name='categoria'>
-                            <%
-                                Conexion conecxion;
-
-                                if ((conecxion = Conexion.establecerConexion()) != null) {
-                                    ResultSet categorias = conecxion.crearQuery("categoria_libro").select();
-
-                                    while(categorias.next()){
-                                        out.println("<option value=" + categorias.getString("id") + ">" + categorias.getString("categoria") + "</option>");
-                                    }
-
-                                    conecxion.cerrarConexion();
-                                }
-                            %>
-                        </select>
-                        </p>
-
-                        <input id="btnNuevoLibro" type='submit' class="btn btn-success" value='Guardar' name='Accion'/>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <%@include file="menu.jsp" %>
+        
+        <jsp:include page="manejarLibros.jsp">
+            <jsp:param name="accion" value="1" />
+        </jsp:include>
         
         <!-- Lista de los libros -->
-        <table class="table table-dark text-center table-hover table-bordered mt-2">
+        <table class="table table-dark text-center table-hover table-bordered mt-2 mb-0">
             <tr>
                 <td>ID</td>
                 <td>Titulo</td>
@@ -127,76 +77,5 @@
                     }
             %>
         </table>
-        
-        <script>
-            
-            document.getElementById("btnNuevoLibro").onclick = function(){
-                
-                // Obtenemos los valores
-                var txtNuevoId = document.getElementById("txtNuevoId");
-                var txtNuevoTitulo = document.getElementById("txtNuevoTitulo");
-                var txtNuevaCantidad = document.getElementById("txtNuevaCantidad");
-                var selecNuevaCategoria = document.getElementById("selecNuevaCategoria");
-                
-                var estado = true;
-                
-                var errorId = document.getElementById("errorId");
-                var errorTitulo = document.getElementById("errorTitulo");
-                var errorCantidad = document.getElementById("errorCantidad");
-                
-                if (!Number.isNaN(txtNuevaCantidad.value.toString().trim())) {
-                    if(txtNuevaCantidad.value <= 0){
-                        estado = false;
-                        errorCantidad.classList.remove('d-none');
-                        errorCantidad.innerHTML = "Error: la cantidad debe de ser mayor que 0";
-                    } else {
-                        errorCantidad.classList.add('d-none');
-                    }
-                } else{
-                    estado = false;
-                    errorCantidad.classList.remove('d-none');
-                    errorCantidad.innerHTML = "Error: la cantidad debe de ser numerico";
-                }
-                
-                if (!Number.isNaN(txtNuevoId.value.toString().trim())) {
-                    if(txtNuevoId.value <= 0){
-                        estado = false;
-                        errorId.classList.remove('d-none');
-                        errorId.innerHTML = "Error: el id debe de ser mayor que 0";
-                    } else {
-                        errorId.classList.add('d-none');
-                    }
-                } else{
-                    estado = false;
-                    errorId.classList.remove('d-none');
-                    errorId.innerHTML = "Error: el id debe de ser numerico";
-                }
-                
-                if(txtNuevoTitulo.value.toString().trim() == "") {
-                    estado = false;
-                    errorTitulo.classList.remove('d-none');
-                    errorTitulo.innerHTML = "Error: el titulo es un campo obligatorio";
-                } else
-                    errorTitulo.classList.add('d-none');
-                
-                if (!Number.isNaN(txtNuevoId.value.toString().trim())) {
-                    if(txtNuevoId.value <= 0){
-                        estado = false;
-                        errorId.classList.remove('d-none');
-                        errorId.innerHTML = "Error: el id debe de ser mayor que 0";
-                    } else {
-                        errorId.classList.add('d-none');
-                    }
-                } else{
-                    estado = false;
-                    errorId.classList.remove('d-none');
-                    errorId.innerHTML = "Error: el id debe de ser numerico";
-                }
-                
-                if(!estado)
-                    return false;
-            }
-            
-        </script>
     </body>
 </html>

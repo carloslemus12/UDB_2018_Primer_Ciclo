@@ -35,13 +35,18 @@ public class accionLibros extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         String id = request.getParameter("id");
+        
+        // Informacion del libro
         String cantidad = request.getParameter("cantidad");
         String titulo = request.getParameter("titulo");
         String categoria = request.getParameter("categoria");
+        String isbn = request.getParameter("isbn");
+        String descripcion = request.getParameter("descripcion");
+        String edicion = request.getParameter("edicion");
         
         try {
             PrintWriter out = response.getWriter();
@@ -62,46 +67,15 @@ public class accionLibros extends HttpServlet {
             if ((con = Conexion.establecerConexion()) != null) {
                 
                 if(accion.equals("Modificar")) {
-                    out.println("<form action='accionLibros' method='POST'>");
-                    out.println("<div class=\"form-row align-items-center d-flex justify-content-center bg-dark p-3\">");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input class=\"form-control mt-2\" type='hidden' value='" + id + "' name='id' placeholder='Indice' />");
-                    out.println("</div>");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input id='txtTitulo' class=\"form-control mt-2\" type='text' value='"+ titulo + "' name='titulo' placeholder='Titulo del libro' />");
-                    out.println("</div>");
-                    
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<input id='txtCantidad' class=\"form-control mt-2\" type='number' value='"+ cantidad + "' name='cantidad' placeholder='Cantidad' />");
-                    out.println("</div>");
-                    
-                    ResultSet categorias = con.crearQuery("categoria_libro").select();
-
-                    out.println("<div class=\"col-auto\">");
-                    out.println("<select id='selectCategoria' class=\"form-control mt-2\" name='categoria'>");
-
-                    while(categorias.next()){
-                        out.println("<option value=" + categorias.getString("id") + " " + ((categorias.getString("id").equals(categoria))? "selected" : "") + ">" + categorias.getString("categoria") + "</option>");
-                    }
-
-                    out.println("</select>");
-                    out.println("</div>");
-                    
-                    out.println("<input id='btnModificar' type='submit' value='GuardarCambio' class='btn btn-primary mt-2' name='Accion'/>");
-                    
-                    out.println("</div>");
-                    
-                    out.println("<div id=\"errorTitulo\" class=\"alert alert-danger mx-5 d-none\" role=\"alert\"></div>");
-                    out.println("<div id=\"errorCantidad\" class=\"alert alert-danger mx-5 d-none\" role=\"alert\"></div>");
-                    
-                    out.println("</form>");
+                    response.sendRedirect("/Guia7_biblioteca/manejarLibros.jsp?accion=2&id="+id);
                 } else if(accion.equals("GuardarCambio")) {
                     if (con.crearQuery("libro")
                             .agregarCampoValor("titulo", titulo)
                             .agregarCampoValor("cantidad", Integer.valueOf(cantidad))
                             .agregarCampoValor("categoria", Integer.valueOf(categoria))
+                            .agregarCampoValor("isbn", isbn)
+                            .agregarCampoValor("descripcion", descripcion)
+                            .agregarCampoValor("edicion", edicion)
                             .where("id", Integer.valueOf(id))
                             .update() > 0) {
                         response.sendRedirect("/Guia7_biblioteca/libros.jsp");
@@ -118,10 +92,13 @@ public class accionLibros extends HttpServlet {
                             .agregarCampoValor("cantidad", Integer.valueOf(cantidad))
                             .agregarCampoValor("categoria", Integer.valueOf(categoria))
                             .agregarCampoValor("id", Integer.valueOf(id))
+                            .agregarCampoValor("isbn", isbn)
+                            .agregarCampoValor("descripcion", descripcion)
+                            .agregarCampoValor("edicion", edicion)
                             .insert()> 0) {
                         response.sendRedirect("/Guia7_biblioteca/libros.jsp");
                     } else
-                        out.println("<h1>La accion de guardar no se ha podido realizar</h1>");
+                        out.println("<h1>No se ha podido ingresar el libro</h1>");
                 }
                 
             } else 
