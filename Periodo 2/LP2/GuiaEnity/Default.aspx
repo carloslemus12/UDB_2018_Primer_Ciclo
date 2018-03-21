@@ -54,7 +54,7 @@
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
                 DataKeyNames="idtipocliente"
                 EmptyDataText="No hay registros de datos para mostrar."
-                CssClass="table table-bordered" AllowSorting="True"
+                CssClass="table table-bordered" AllowSorting="false"
                 OnRowDeleting="GridView1_RowDeleting"
                 OnSelectedIndexChanging="GridView1_SelectedIndexChanging"
                 >
@@ -74,7 +74,7 @@
                         </ItemTemplate>
                         
                     </asp:TemplateField>
-                    <asp:TemplateField>
+                    <asp:TemplateField HeaderText="Opciones">
                         <ItemTemplate>
                             <asp:Button ID="btnModificar" Text="Modificar" CssClass="btn btn-success"
                                 runat="server" CommandName="Select" />

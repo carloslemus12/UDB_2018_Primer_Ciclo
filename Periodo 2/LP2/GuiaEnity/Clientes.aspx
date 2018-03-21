@@ -53,7 +53,7 @@
                 <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
                     DataKeyNames="Id"
                     EmptyDataText="No hay registros de datos para mostrar."
-                    CssClass="table table-bordered" AllowSorting="True"
+                    CssClass="table table-bordered" AllowSorting="false"
                     OnRowDeleting="GridView1_RowDeleting"
                     OnSelectedIndexChanging="GridView1_SelectedIndexChanging"
                     >

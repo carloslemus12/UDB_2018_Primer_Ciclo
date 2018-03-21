@@ -138,7 +138,7 @@
                 </script>
                 <asp:UpdatePanel ID="upContenedor" runat="server">
                     <ContentTemplate>
-                        <asp:Timer ID="tmusuario" runat="server" Interval="30000" OnTick="tmusuario_Tick"></asp:Timer>
+                        <asp:Timer ID="tmusuario" runat="server" Interval="10000" OnTick="tmusuario_Tick"></asp:Timer>
                         <asp:GridView ID="tableUsuario" PageSize="6" CssClass="table table-dark table-hover text-center" runat="server" AutoGenerateColumns="False" DataKeyNames="Codigo" DataSourceID="sqlUsuarios" AllowPaging="True">
                             <Columns>
                                 <asp:BoundField DataField="Codigo" HeaderText="Codigo" ReadOnly="True" SortExpression="Codigo" />
