@@ -73,9 +73,9 @@
                         out.println("<td>"+ categorias.getString("id") +"</td>");
                         out.println("<td>"+ categorias.getString("categoria") +"</td>");
                         out.println("<td><input type='submit' class='btn btn-primary' value='Eliminar' name='Accion'/></td>");
-                        out.println("</form>");
-                        out.println("<td><a type='submit' class='btn btn-danger' href='/Guia9_Biblioteca/categorias.jsp'>Modificar</a></td>");
+                        out.println("<td><input type='submit' class='btn btn-danger' value='Modificar' name='Accion'/></td>");
                         out.println("</tr>");
+                        out.println("</form>");
                     }
                 }
         %>
