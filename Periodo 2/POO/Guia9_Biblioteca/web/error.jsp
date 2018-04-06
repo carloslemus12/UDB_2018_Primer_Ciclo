@@ -32,7 +32,9 @@
         </style>
     </head>
     <body>
-        <div class="fill d-flex justify-content-center align-items-center">
+        <%@include file="menu.jsp" %>
+        
+        <div class="mt-5 d-flex justify-content-center align-items-center">
         <div class="jumbotron">
         <h1 class="display-4">Ha ocurrido algun error inesperado</h1>
         <p class="lead">Lo sentimos pero el error no se ha podido identificar</p>

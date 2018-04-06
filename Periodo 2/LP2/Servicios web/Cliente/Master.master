@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Master.master.cs" Inherits="Master" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="content_titulo" runat="server"></asp:ContentPlaceHolder></title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        html, body, form {
+            height: 100%;
+        }
+
+        body {
+            background: url("/Img/repat.jpg");
+        }
+
+        .fill { 
+            min-height: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form id="frm_principal" runat="server">
+    
+        <!-- Menu -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <span class="navbar-brand">Banco UDB</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Depositar.aspx">Depositar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Retirar.aspx">Retirar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Cuenta.aspx">Ver cuenta</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Contenido -->
+        <asp:ContentPlaceHolder ID="content_cuerpo" runat="server">
+
+        </asp:ContentPlaceHolder>
+
+    </form>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

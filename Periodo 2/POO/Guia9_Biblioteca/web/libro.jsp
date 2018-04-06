@@ -134,7 +134,7 @@
                 }
 
                 function validarTexto(txt, error, campo){
-                    if(txt.value.toString().trim().equals("")) {
+                    if(txt.value.toString().trim() == "") {
                         estado = false;
                         error.classList.remove('d-none');
                         error.innerHTML = "Error: el campo " + campo + " es un campo obligatorio";
@@ -150,7 +150,7 @@
                 validarTexto(txtEdicion, errorEdicion, "Edicion");
 
                 if(!estado)
-                    return false;
+                return false;
             }
 
         </script>

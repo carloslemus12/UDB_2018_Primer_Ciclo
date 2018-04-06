@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Registrar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="propietario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="saldo" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RegistrarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RegistrarResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IniciarSecion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IniciarSecionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IniciarSecionResult" type="tns:cuentas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="cuentas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="nombre_propietario" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="saldo" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="pin" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="IniciarSecionJSON">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IniciarSecionJSONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IniciarSecionJSONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Depositar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DepositarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DepositarResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Retirar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="numero_cuenta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RetirarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RetirarResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RegistrarSoapIn">
+    <wsdl:part name="parameters" element="tns:Registrar" />
+  </wsdl:message>
+  <wsdl:message name="RegistrarSoapOut">
+    <wsdl:part name="parameters" element="tns:RegistrarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IniciarSecionSoapIn">
+    <wsdl:part name="parameters" element="tns:IniciarSecion" />
+  </wsdl:message>
+  <wsdl:message name="IniciarSecionSoapOut">
+    <wsdl:part name="parameters" element="tns:IniciarSecionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IniciarSecionJSONSoapIn">
+    <wsdl:part name="parameters" element="tns:IniciarSecionJSON" />
+  </wsdl:message>
+  <wsdl:message name="IniciarSecionJSONSoapOut">
+    <wsdl:part name="parameters" element="tns:IniciarSecionJSONResponse" />
+  </wsdl:message>
+  <wsdl:message name="DepositarSoapIn">
+    <wsdl:part name="parameters" element="tns:Depositar" />
+  </wsdl:message>
+  <wsdl:message name="DepositarSoapOut">
+    <wsdl:part name="parameters" element="tns:DepositarResponse" />
+  </wsdl:message>
+  <wsdl:message name="RetirarSoapIn">
+    <wsdl:part name="parameters" element="tns:Retirar" />
+  </wsdl:message>
+  <wsdl:message name="RetirarSoapOut">
+    <wsdl:part name="parameters" element="tns:RetirarResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BancoWebServiceSoap">
+    <wsdl:operation name="Registrar">
+      <wsdl:input message="tns:RegistrarSoapIn" />
+      <wsdl:output message="tns:RegistrarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecion">
+      <wsdl:input message="tns:IniciarSecionSoapIn" />
+      <wsdl:output message="tns:IniciarSecionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecionJSON">
+      <wsdl:input message="tns:IniciarSecionJSONSoapIn" />
+      <wsdl:output message="tns:IniciarSecionJSONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Depositar">
+      <wsdl:input message="tns:DepositarSoapIn" />
+      <wsdl:output message="tns:DepositarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Retirar">
+      <wsdl:input message="tns:RetirarSoapIn" />
+      <wsdl:output message="tns:RetirarSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BancoWebServiceSoap" type="tns:BancoWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Registrar">
+      <soap:operation soapAction="http://tempuri.org/Registrar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecion">
+      <soap:operation soapAction="http://tempuri.org/IniciarSecion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecionJSON">
+      <soap:operation soapAction="http://tempuri.org/IniciarSecionJSON" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Depositar">
+      <soap:operation soapAction="http://tempuri.org/Depositar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Retirar">
+      <soap:operation soapAction="http://tempuri.org/Retirar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BancoWebServiceSoap12" type="tns:BancoWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Registrar">
+      <soap12:operation soapAction="http://tempuri.org/Registrar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecion">
+      <soap12:operation soapAction="http://tempuri.org/IniciarSecion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IniciarSecionJSON">
+      <soap12:operation soapAction="http://tempuri.org/IniciarSecionJSON" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Depositar">
+      <soap12:operation soapAction="http://tempuri.org/Depositar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Retirar">
+      <soap12:operation soapAction="http://tempuri.org/Retirar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BancoWebService">
+    <wsdl:port name="BancoWebServiceSoap" binding="tns:BancoWebServiceSoap">
+      <soap:address location="http://localhost:49348/BancoWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BancoWebServiceSoap12" binding="tns:BancoWebServiceSoap12">
+      <soap12:address location="http://localhost:49348/BancoWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
